@@ -1,24 +1,29 @@
 import { useState, useEffect } from "react";
 
 const useAuth = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [auth, setAuth] = useState({ isAuthenticated: false, userId: null });
 
     useEffect(() => {
-        const checkAuth = async () => {
-            try {
-                const response = await fetch("http://localhost:8080/api/usuarios/perfil", {
-                    credentials: "include", // IMPORTANTE para enviar cookies
-                });
-                setIsAuthenticated(response.ok);
-            } catch (error) {
-                setIsAuthenticated(false);
-            }
-        };
-
-        checkAuth();
+        const token = localStorage.getItem("authToken");
+        const userId = localStorage.getItem("userId");
+        if (token && userId) {
+            setAuth({ isAuthenticated: true, userId });
+        }
     }, []);
 
-    return isAuthenticated;
+    const login = (token, userId) => {
+        localStorage.setItem("authToken", token);
+        localStorage.setItem("userId", userId);
+        setAuth({ isAuthenticated: true, userId });
+    };
+
+    const logout = () => {
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("userId");
+        setAuth({ isAuthenticated: false, userId: null });
+    };
+
+    return { auth, login, logout };
 };
 
 export default useAuth;

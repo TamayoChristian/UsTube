@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import useAuth from '/ustube_front/src/hooks/useAuth';
-import Login from './Login';
+import { Link } from "react-router-dom";
 
-const Inicio = () => {
+const Inicio = ({ authToken, onLogout }) => {
+   
     const [videos, setVideos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
-    const isAuthenticated = useAuth();
 
     useEffect(() => {
         const fetchVideos = async () => {
@@ -31,7 +29,6 @@ const Inicio = () => {
                 setLoading(false);
             }
         };
-
         fetchVideos();
     }, []);
 
@@ -43,20 +40,37 @@ const Inicio = () => {
         return <div>Error: {error}</div>;
     }
 
+
     return (
         <div>
-            <h1>Videos Aleatorios</h1>
+            <h1>Inicio</h1>
+            
+            {/*Mostrar los videos*/}
+          
             <ul>
                 {videos.map(video => (
                     <li key={video.id}>
                         <h2>{video.titulo}</h2>
                         <p>{video.descripcion}</p>
-                        <a href='http://localhost:8080/api/videos/ver/1'> <button>Facha </button></a>
+                        <a href={`http://localhost:8080/api/videos/ver/${video.id}`}>
+                        <button>Facha </button></a>
                     </li>
                 ))}
             </ul>
-            <Login></Login>
-            {isAuthenticated && <button>Subir Video</button>}
+            
+            
+            {authToken ? (
+                <div>
+                    <button onClick={onLogout}>Cerrar sesión</button>
+                    <Link to="/upload">
+                        <button>Subir Video</button>
+                    </Link>
+                </div>
+            ) : (
+                <Link to="/login">
+                    <button>Iniciar sesión</button>
+                </Link>
+            )}
         </div>
     );
 };

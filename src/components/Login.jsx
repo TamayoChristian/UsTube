@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 
-const Login = () => {
+const Login = ({ onLogin }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
 
-
     const handleLogin = async (e) => {
         e.preventDefault();
         const user = { username, password };
-
+    
         try {
             const response = await fetch('http://localhost:8080/api/usuarios/login', {
                 method: 'POST',
@@ -18,10 +17,13 @@ const Login = () => {
                 },
                 body: JSON.stringify(user),
             });
-
+    
+            //Si el inicio de sesión ha sido correcto
             if (response.ok) {
-                const userData = await response.json(); // Suponiendo que el servidor devuelve datos del usuario
-                onLogin(userData); // Llama a la función onLogin pasada como prop
+                const data = await response.json();
+                localStorage.setItem('authToken', data.token);
+                onLogin({ token: data.token });
+                window.location.href = "/";  // Redirige a la página de inicio                
                 setMessage('Login exitoso');
             } else {
                 const errorText = await response.text();
@@ -30,12 +32,8 @@ const Login = () => {
         } catch (error) {
             setMessage(`Error: ${error.message}`);
         }
-
-
-
-
-        
     };
+    
 
     return (
         <div>
@@ -59,7 +57,7 @@ const Login = () => {
                         required
                     />
                 </div>
-                <button type="submit">Iniciar Sesión</button>
+                <button type="submit"> Iniciar Sesión</button>
             </form>
             {message && <p>{message}</p>}
         </div>
