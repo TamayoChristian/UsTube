@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
 const UploadVideo = () => {
     const { auth } = useAuth();
+    const navigate = useNavigate();
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [file, setFile] = useState(null);
@@ -10,8 +12,15 @@ const UploadVideo = () => {
 
     const uploadVideo = async (e) => {
         e.preventDefault();
+
+        // Verificar que el usuario está autenticado antes de continuar
+        if (!auth.isAuthenticated) {
+            setMessage("Debes iniciar sesión para subir videos.");
+            return;
+        }
+
         if (!file) {
-            setMessage("Por favor, selecciona un archivo");
+            setMessage("Por favor, selecciona un archivo.");
             return;
         }
 
@@ -31,7 +40,10 @@ const UploadVideo = () => {
             });
 
             if (response.ok) {
-                setMessage("Video subido con éxito");
+                setMessage("Video subido con éxito.");
+                setTimeout(() => {
+                    navigate("/"); // Redirige al inicio tras subir el video
+                }, 2000);
             } else {
                 const errorText = await response.text();
                 setMessage(`Error: ${errorText}`);
@@ -48,16 +60,22 @@ const UploadVideo = () => {
                 <form onSubmit={uploadVideo}>
                     <label>Título</label>
                     <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
+
                     <label>Descripción</label>
                     <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} required />
+
                     <label>Archivo</label>
                     <input type="file" accept="video/*" onChange={(e) => setFile(e.target.files[0])} required />
+
                     <button type="submit">Subir</button>
                 </form>
             ) : (
-                <p>Debes iniciar sesión para subir videos.</p>
+                <div>
+                    <p>Debes <a href="/login">iniciar sesión</a> para subir videos.</p>
+                    {console.log(auth)}
+                    </div>
             )}
-            <p>{message}</p>
+            {message && <p>{message}</p>}
         </div>
     );
 };

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 
 const Inicio = ({ authToken, onLogout }) => {
-   
+
     const [videos, setVideos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -44,27 +44,29 @@ const Inicio = ({ authToken, onLogout }) => {
     return (
         <div>
             <h1>Inicio</h1>
-            
+
             {/*Mostrar los videos*/}
-          
+
             <ul>
                 {videos.map(video => (
                     <li key={video.id}>
                         <h2>{video.titulo}</h2>
                         <p>{video.descripcion}</p>
-                        <a href={`http://localhost:8080/api/videos/ver/${video.id}`}>
-                        <button>Facha </button></a>
+                        <Link to={`/videos/ver/${video.id}`}>
+                            <button>Ver</button>
+                        </Link>
                     </li>
                 ))}
             </ul>
-            
-            
+
+
             {authToken ? (
                 <div>
                     <button onClick={onLogout}>Cerrar sesión</button>
                     <Link to="/upload">
                         <button>Subir Video</button>
                     </Link>
+                    {console.log(authToken)}
                 </div>
             ) : (
                 <Link to="/login">
