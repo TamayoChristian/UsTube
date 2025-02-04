@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
 const Video = () => {
     const { id } = useParams(); // Obtener la ID del video desde la URL
     const [video, setVideo] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [likes, setLikes] = useState(0); // Initialize likes count
+    const { auth } = useAuth();
 
     useEffect(() => {
         const fetchVideo = async () => {
@@ -24,7 +27,42 @@ const Video = () => {
         };
 
         fetchVideo();
+
+        const fetchLikes = async () => {
+            try {
+                const response = await fetch(`http://localhost:8080/api/likes/${id}/likes`);
+                if (!response.ok) {
+                    throw new Error("Hubo un error al contar los likes");
+                }
+                const data = await response.json();
+                setLikes(data); // Set initial likes count
+            } catch (err) {
+                setError(err.message);
+            }
+        };
+        fetchLikes();
     }, [id]);
+
+    const ingresarLikes = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/likes/${id}/like`, {
+                method: 'POST',
+                credentials: "include",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(auth.userId)
+            });
+
+            if (response.ok) {
+                setLikes((prevLikes) => prevLikes + 1); // Increment likes count
+            } else {
+                console.log(response)
+                const errorText = await response.text();
+                console.error("Error al dar like:", errorText);
+            }
+        } catch (error) {
+            console.log('Error al dar like:', error);
+        }
+    };
 
     if (loading) return <div>Cargando...</div>;
     if (error) return <div>Error: {error}</div>;
@@ -33,6 +71,10 @@ const Video = () => {
         <div>
             <h1>{video.titulo}</h1>
             <p>Subido por: {video.username}</p>
+            <div>
+                <p>Likes: {likes}</p>
+                <button onClick={ingresarLikes}>Dar Like</button>
+            </div>
             {/* La parte para ver el video */}
             <video width="640" height="360" controls>
                 <source src={`http://localhost:8080/api/videos/ver/${video.id}`} type="video/mp4" />
