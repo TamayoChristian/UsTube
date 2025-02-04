@@ -2,19 +2,24 @@ import { useState, useEffect } from "react";
 import Cookies from 'js-cookie';
 
 const useAuth = () => {
-    const [auth, setAuth] = useState({ isAuthenticated: false, userId: null, token : null });
+    const [auth, setAuth] = useState({ isAuthenticated: false, userId: null, token: null });
 
     useEffect(() => {
-        const isAuthenticated = Cookies.get('isAuthenticated') === 'true';
-        const userId = Cookies.get('userId');
-        const token = Cookies.get('authToken');
+        const checkAuth = () => {
+            const isAuthenticated = Cookies.get('isAuthenticated') === 'true';
+            const userId = Cookies.get('userId');
+            const token = Cookies.get('authToken');
 
-        if (isAuthenticated && token) {
             setAuth({ isAuthenticated, userId, token });
-        } else {
-            setAuth({ isAuthenticated: false, userId: null, token: null });
-        }
-    }, [Cookies.get('isAuthenticated'), Cookies.get('userId'), Cookies.get('authToken')]);
+        };
+
+        checkAuth();
+
+        // Agregar un intervalo para verificar cambios en cookies cada 2 segundos
+        const interval = setInterval(checkAuth, 2000);
+
+        return () => clearInterval(interval); // Limpiar intervalo al desmontar
+    }, []);
 
     const login = (userData) => {
         Cookies.set('isAuthenticated', 'true');
@@ -32,7 +37,6 @@ const useAuth = () => {
         Cookies.remove('userId');
         Cookies.remove('authToken');
         setAuth({ isAuthenticated: false, userId: null, token: null });
-
         window.location.reload();
     };
 

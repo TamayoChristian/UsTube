@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import Cookies from "js-cookie";
@@ -6,7 +6,6 @@ import Cookies from "js-cookie";
 const UploadVideo = () => {
     const { auth } = useAuth();
     const navigate = useNavigate();
-    const [isAuthenticatedCookie, setIsAuthenticatedCookie] = useState(Cookies.get('isAuthenticated') === 'true');
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [file, setFile] = useState(null);
@@ -15,8 +14,10 @@ const UploadVideo = () => {
     const uploadVideo = async (e) => {
         e.preventDefault();
 
-        // Verificar que el usuario está autenticado antes de continuar
-        if (!auth.isAuthenticated) {
+        // Verifica autenticación con Cookies
+        const isAuthenticated = Cookies.get('isAuthenticated') === 'true';
+
+        if (!isAuthenticated) {
             setMessage("Debes iniciar sesión para subir videos.");
             return;
         }
@@ -41,25 +42,19 @@ const UploadVideo = () => {
 
             if (response.ok) {
                 setMessage("Video subido con éxito.");
-                setTimeout(() => {
-                    navigate("/"); // Redirige al inicio tras subir el video
-                }, 2000);
+                setTimeout(() => navigate("/"), 2000);
             } else {
-                setMessage(`Error: ${errorText}`);
+                setMessage("Error al subir el video.");
             }
         } catch (error) {
             setMessage(`Error: ${error.message}`);
         }
     };
 
-    useEffect(() => {
-        setIsAuthenticatedCookie(Cookies.get('isAuthenticated') === 'true');
-    }, [auth.isAuthenticated]);
-
     return (
         <div>
             <h2>Subir Video</h2>
-            {isAuthenticatedCookie? (
+            {auth.isAuthenticated ? (
                 <form onSubmit={uploadVideo}>
                     <label>Título</label>
                     <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
