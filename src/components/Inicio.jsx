@@ -13,7 +13,7 @@ const Inicio = () => {
     useEffect(() => {
         const fetchVideos = async () => {
             try {
-                const videoIds = Array.from({ length: 2 }, (_, i) => i + 1);
+                const videoIds = Array.from({ length: 3 }, (_, i) => i + 1);
                 const videoPromises = videoIds.map(id =>
                     fetch(`http://localhost:8080/api/videos/recuperar/${id}`)
                         .then(response => {

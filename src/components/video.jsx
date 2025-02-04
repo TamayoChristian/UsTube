@@ -32,7 +32,7 @@ const Video = () => {
     return (
         <div>
             <h1>{video.titulo}</h1>
-            <p>Subido por: {video.usuario}</p>
+            <p>Subido por: {video.username}</p>
             {/* La parte para ver el video */}
             <video width="640" height="360" controls>
                 <source src={`http://localhost:8080/api/videos/ver/${video.id}`} type="video/mp4" />
