@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
+import useAuth from '../hooks/useAuth';
+import Cookies from 'js-cookie';
 
-const Inicio = ({ authToken, onLogout }) => {
-
+const Inicio = () => {
+    const { auth, logout } = useAuth();
     const [videos, setVideos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isAuthenticatedCookie, setIsAuthenticatedCookie] = useState(Cookies.get('isAuthenticated') === 'true');
 
     useEffect(() => {
         const fetchVideos = async () => {
             try {
-                const videoIds = Array.from({ length: 1 }, (_, i) => i + 1); // Generar IDs del 1 al 10
+                const videoIds = Array.from({ length: 1 }, (_, i) => i + 1);
                 const videoPromises = videoIds.map(id =>
                     fetch(`http://localhost:8080/api/videos/recuperar/${id}`)
                         .then(response => {
@@ -32,21 +35,16 @@ const Inicio = ({ authToken, onLogout }) => {
         fetchVideos();
     }, []);
 
-    if (loading) {
-        return <div>Cargando videos...</div>;
-    }
+    useEffect(() => {
+        setIsAuthenticatedCookie(Cookies.get('isAuthenticated') === 'true');
+    }, [auth.isAuthenticated]);
 
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
-
+    if (loading) return <div>Cargando videos...</div>;
+    if (error) return <div>Error: {error}</div>;
 
     return (
         <div>
             <h1>Inicio</h1>
-
-            {/*Mostrar los videos*/}
-
             <ul>
                 {videos.map(video => (
                     <li key={video.id}>
@@ -59,14 +57,12 @@ const Inicio = ({ authToken, onLogout }) => {
                 ))}
             </ul>
 
-
-            {authToken ? (
+            {isAuthenticatedCookie ? (
                 <div>
-                    <button onClick={onLogout}>Cerrar sesión</button>
+                    <button onClick={logout}>Cerrar sesión</button>
                     <Link to="/upload">
                         <button>Subir Video</button>
                     </Link>
-                    {console.log(authToken)}
                 </div>
             ) : (
                 <Link to="/login">

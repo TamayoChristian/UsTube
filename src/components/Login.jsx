@@ -1,33 +1,32 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import useAuth from '../hooks/useAuth';
 
 const Login = ({ onLogin }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
+    const navigate = useNavigate();
+    const {login} = useAuth();
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        const user = { username, password };
-    
+
         try {
             const response = await fetch('http://localhost:8080/api/usuarios/login', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(user),
+                credentials: "include",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password }),
             });
     
             //Si el inicio de sesión ha sido correcto
             if (response.ok) {
-                const data = await response.json();
-                localStorage.setItem('authToken', data.token);
-                onLogin({ token: data.token });
-                window.location.href = "/";  // Redirige a la página de inicio                
-                setMessage('Login exitoso');
+                const userData = await response.json();
+                login(userData)
+                navigate("/"); // Redirige correctamente
             } else {
-                const errorText = await response.text();
-                setMessage(`Error: ${errorText}`);
+                setMessage(`Error: ${await response.text()}`);
             }
         } catch (error) {
             setMessage(`Error: ${error.message}`);

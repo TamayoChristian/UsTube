@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import Cookies from "js-cookie";
 
 const UploadVideo = () => {
     const { auth } = useAuth();
     const navigate = useNavigate();
+    const [isAuthenticatedCookie, setIsAuthenticatedCookie] = useState(Cookies.get('isAuthenticated') === 'true');
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [file, setFile] = useState(null);
@@ -33,9 +35,7 @@ const UploadVideo = () => {
         try {
             const response = await fetch("http://localhost:8080/api/videos/subir", {
                 method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${localStorage.getItem("authToken")}`,
-                },
+                credentials: "include",
                 body: formData,
             });
 
@@ -45,7 +45,6 @@ const UploadVideo = () => {
                     navigate("/"); // Redirige al inicio tras subir el video
                 }, 2000);
             } else {
-                const errorText = await response.text();
                 setMessage(`Error: ${errorText}`);
             }
         } catch (error) {
@@ -53,10 +52,14 @@ const UploadVideo = () => {
         }
     };
 
+    useEffect(() => {
+        setIsAuthenticatedCookie(Cookies.get('isAuthenticated') === 'true');
+    }, [auth.isAuthenticated]);
+
     return (
         <div>
             <h2>Subir Video</h2>
-            {auth.isAuthenticated ? (
+            {isAuthenticatedCookie? (
                 <form onSubmit={uploadVideo}>
                     <label>Título</label>
                     <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
@@ -72,8 +75,7 @@ const UploadVideo = () => {
             ) : (
                 <div>
                     <p>Debes <a href="/login">iniciar sesión</a> para subir videos.</p>
-                    {console.log(auth)}
-                    </div>
+                </div>
             )}
             {message && <p>{message}</p>}
         </div>
