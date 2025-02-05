@@ -54,6 +54,8 @@ const Video = () => {
 
             if (response.ok) {
                 setLikes((prevLikes) => prevLikes + 1); // Increment likes count
+            } else if (response.status == 409) {
+                console.log("Ya se ha dado like");
             } else {
                 console.log(response)
                 const errorText = await response.text();
@@ -63,6 +65,31 @@ const Video = () => {
             console.log('Error al dar like:', error);
         }
     };
+
+
+    const ingresarDislikes = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/likes/${id}/likes/${auth.userId}`, {
+                method: 'DELETE',
+                credentials: "include"
+            });
+    
+            if (response.ok) {
+                setLikes((prevLikes) => prevLikes - 1); // Disminuir el conteo de likes
+            } else if (response.status == 409){
+                console.log("Ya has dado dislike")
+            }
+            
+            else {
+                const errorText = await response.text();
+                console.error("Error al dar dislike:", errorText);
+            }
+        } catch (error) {
+            console.log('Error al dar dislike:', error);
+        }
+    };
+    
+    
 
     if (loading) return <div>Cargando...</div>;
     if (error) return <div>Error: {error}</div>;
@@ -74,6 +101,7 @@ const Video = () => {
             <div>
                 <p>Likes: {likes}</p>
                 <button onClick={ingresarLikes}>Dar Like</button>
+                <button onClick={ingresarDislikes}>Dislike</button>
             </div>
             {/* La parte para ver el video */}
             <video width="640" height="360" controls>
