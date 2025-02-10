@@ -102,3 +102,7 @@ body { /*Controla el fondo de toda la pagina de inicio*/
     background-color: white;
     color: black;
 }
+
+.miniaturas{
+    width: 100%;
+}

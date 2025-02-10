@@ -9,6 +9,7 @@ const UploadVideo = () => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [file, setFile] = useState(null);
+    const [thumbnail, setThumbnail] = useState(null);
     const [message, setMessage] = useState("");
 
     const uploadVideo = async (e) => {
@@ -27,8 +28,14 @@ const UploadVideo = () => {
             return;
         }
 
+        if (!thumbnail) {
+            setMessage("Por favor, selecciona una miniatura.");
+            return;
+        }
+
         const formData = new FormData();
         formData.append("file", file);
+        formData.append("mini", thumbnail);
         formData.append("usuarioId", auth.userId);
         formData.append("title", title);
         formData.append("description", description);
@@ -62,9 +69,11 @@ const UploadVideo = () => {
                     <label>Descripción</label>
                     <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} required />
 
-                    <label>Archivo</label>
+                    <label>Ingrese su video</label>
                     <input type="file" accept="video/*" onChange={(e) => setFile(e.target.files[0])} required />
 
+                    <label> Ingrese la miniatura</label>
+                    <input type="file" accept="image/*" onChange={(e) => setThumbnail(e.target.files[0])}></input>
                     <button type="submit">Subir</button>
                 </form>
             ) : (

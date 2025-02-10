@@ -101,6 +101,7 @@ const Inicio = () => {
                 {videos.map(video => (
                     <Link to={`/videos/ver/${video.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                         <li key={video.id} className='card'>
+                            <img src={`http://localhost:8080/api/videos/min/${video.id}`} className='miniaturas'></img>
                             <h2>{video.titulo}</h2>
                             <p>{video.username}</p>
                         </li>
