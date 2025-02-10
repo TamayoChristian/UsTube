@@ -59,12 +59,12 @@ const Inicio = () => {
     };
 
 
-   /* useEffect(() => {
-        setIsAuthenticatedCookie(Cookies.get('isAuthenticated') === 'true');
-    }, [auth.isAuthenticated]);
-
-    if (loading) return <div>Cargando videos...</div>;
-    if (error) return <div>Error: {error}</div>; */
+    /* useEffect(() => {
+         setIsAuthenticatedCookie(Cookies.get('isAuthenticated') === 'true');
+     }, [auth.isAuthenticated]);
+ 
+     if (loading) return <div>Cargando videos...</div>;
+     if (error) return <div>Error: {error}</div>; */
 
     useEffect(() => {
         fetchVideos();
@@ -83,9 +83,9 @@ const Inicio = () => {
         <div>
             <div className='navbar'>
                 <img src={UStube} className='logo'></img>
-                <Barrabusqueda onSearch={fetchVideos}/>
+                <Barrabusqueda onSearch={fetchVideos} />
                 {isAuthenticatedCookie ? (
-                    <div style={{display:'flex', gap:'20px'}}>
+                    <div style={{ display: 'flex', gap: '20px' }}>
                         <button onClick={logout} className='botonesNav'>Cerrar sesión</button>
                         <Link to="/upload">
                             <button className='botonesNav' >Subir Video</button>
@@ -99,13 +99,12 @@ const Inicio = () => {
             </div>
             <ul className='zonavideos'>
                 {videos.map(video => (
-                    <li key={video.id} className='card'>
-                        <h2>{video.titulo}</h2>
-                        <p>{video.username}</p>
-                        <Link to={`/videos/ver/${video.id}`}>
-                            <button>Ver</button>
-                        </Link>
-                    </li>
+                    <Link to={`/videos/ver/${video.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <li key={video.id} className='card'>
+                            <h2>{video.titulo}</h2>
+                            <p>{video.username}</p>
+                        </li>
+                    </Link>
                 ))}
             </ul>
         </div>
