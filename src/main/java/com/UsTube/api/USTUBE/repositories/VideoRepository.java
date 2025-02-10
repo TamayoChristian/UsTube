@@ -10,4 +10,6 @@ import com.UsTube.api.USTUBE.models.Video;
 public interface VideoRepository extends JpaRepository<Video, Long> {
 	@Query(value = "SELECT * FROM video ORDER BY RAND() LIMIT 1", nativeQuery = true)
 	List<Video> findRandomVideos();
+	
+	List<Video> findByTituloContainingIgnoreCase(String title);
 }

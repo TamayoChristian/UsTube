@@ -26,7 +26,7 @@ public class Video {
 
     @Column(nullable = false)
     private String descripcion;
-
+    
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
     @JsonIgnore
@@ -37,7 +37,9 @@ public class Video {
     
     @Column(nullable = false)
     private String ruta;
-    
+
+	@Column(nullable = false)
+    private String miniatura;
     
     //Getters and setters
 	public Long getId() {
@@ -88,5 +90,12 @@ public class Video {
 		this.likes = likes;
 	}
 
+    public String getMiniatura() {
+		return miniatura;
+	}
+
+	public void setMiniatura(String miniatura) {
+		this.miniatura = miniatura;
+	}
     
 }
