@@ -1,0 +1,103 @@
+
+
+html, body {
+    height: 100%; /* Asegura que el body ocupe toda la pantalla */
+    margin: 0;
+    padding: 0;
+}
+
+body { /*Controla el fondo de toda la pagina de inicio*/
+    background: linear-gradient(rgb(15, 15, 15) 50%, rgb(0, 0, 0) 100%); /* Fondo oscuro */
+    color: white; /* Texto en blanco para mejor visibilidad */
+    font-family: Arial, sans-serif;
+    height: 100%;
+    width: 100%;
+    background-attachment: fixed; /* el fondo permanece fijo */
+    overflow-y: scroll; /* Añade scroll si el contenido excede la altura de la ventana */
+}
+
+.logo{
+    width: 20%; 
+    height: auto;
+    margin-left: 5%;
+}
+
+.navbar{
+    display: flex;
+    justify-content: space-between; /* Distribuye los elementos */
+    align-items: center; /* Alinea verticalmente */
+    padding: 10px; /* Agrega algo de espacio */
+}
+
+.botonesNav{
+    background: transparent;
+    color: white;
+    border: transparent;
+    font-family: 'Franklin Gothic Medium';
+    font-size: 130%;
+    margin-right: 12px;
+}
+
+.botonesNav:hover{
+    text-shadow: 0 0 60px white,
+                 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.zonavideos{ /*Estilos de la parte que muestra los videos*/
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(
+            150px,
+            1fr
+        )
+    );
+    gap: 16px; /* Controla el espacio entre cards*/
+}
+.card {
+    background-color: rgb(25, 25, 25);
+    padding: 15px;
+    border-radius: 10px;
+    color: white;  /* Para mejorar la legibilidad del texto */
+    margin-bottom: 10px;
+    list-style: none; /* Quita los estilos de lista */
+    font-size: 100%;
+    box-shadow: 0 7px 10px rgb(0, 0, 0);
+    transition: 0.5s;
+}
+
+.card:hover{
+    background: linear-gradient(rgb(50, 50, 50), rgb(25, 25, 25));
+    transform: scale(0.95);
+}
+
+.seccionbusqueda{
+    display: flex;
+    justify-content: center;
+}
+.barrabusqueda{
+    background-color: transparent;
+    color: white;
+    border: 2px, solid, white;
+    width: 60%;
+    font-size: 1.6rem;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    padding-left: 10px; /* Añade un espacio interno de 10px a la izquierda */
+    box-sizing: border-box; /* Asegura que el padding no aumente el ancho total */
+    font-family: 'Franklin Gothic Medium';
+}
+
+.botonbuscar{
+    background-color: transparent;
+    border: 2px, solid, white;
+    font-family: 'Franklin Gothic Medium';
+    color: white;
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+    transition: 0.3s;
+}
+.botonbuscar:hover{
+    background-color: white;
+    color: black;
+}

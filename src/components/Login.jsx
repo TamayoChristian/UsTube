@@ -58,6 +58,9 @@ const Login = ({ onLogin }) => {
                 </div>
                 <button type="submit"> Iniciar Sesión</button>
             </form>
+            <div>
+                    <p>¿No tienes una cuenta? <a href="/register">¡Registrarte aquí!</a></p>
+            </div>
             {message && <p>{message}</p>}
         </div>
     );

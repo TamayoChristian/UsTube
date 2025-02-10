@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
+    const navigate = useNavigate();
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -19,9 +21,9 @@ const Register = () => {
             });
 
             if (response.ok) {
-                setMessage('Usuario registrado con éxito');
                 setUsername('');
                 setPassword('');
+                navigate("/login")
             } else {
                 const errorText = await response.text();
                 setMessage(`Error: ${errorText}`);

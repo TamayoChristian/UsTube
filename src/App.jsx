@@ -5,17 +5,19 @@ import Inicio from "/ustube_front/src/components/Inicio";
 import Video from "./components/video";
 import UploadVideo from "./components/UploadVideo ";
 import useAuth from "./hooks/useAuth";
+import Register from "./components/Register";
 
 const App = () => {
     const { auth } = useAuth();
 
     return (
-        <Routes>
+       <Routes>
             <Route path="/" element={<Inicio />} />
             <Route path="/login" element={<Login />} />
             <Route path="/videos/ver/:id" element={<Video />} />
             <Route path="/upload" element={<UploadVideo/>}/>
-        </Routes>
+            <Route path="/register" element={<Register/>}/>
+        </Routes> 
     );
 };
 
