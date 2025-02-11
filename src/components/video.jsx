@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
+import Navbar from './Navbar';
 
 const Video = () => {
     const { id } = useParams(); // Obtener la ID del video desde la URL
@@ -95,7 +96,9 @@ const Video = () => {
     if (error) return <div>Error: {error}</div>;
 
     return (
+        
         <div>
+            <Navbar/>
             <h1>{video.titulo}</h1>
             <p>Subido por: {video.username}</p>
             <div>

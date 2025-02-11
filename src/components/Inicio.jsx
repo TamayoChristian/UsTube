@@ -3,40 +3,13 @@ import { Link } from "react-router-dom";
 import useAuth from '../hooks/useAuth';
 import Cookies from 'js-cookie';
 import '../styles/inicio.css';
-import UStube from '../recursos/UStube.png'
-import Barrabusqueda from './barrabusqueda';
+import Navbar from '../components/Navbar';
 
 const Inicio = () => {
-    const { auth, logout } = useAuth();
+    const { auth } = useAuth();
     const [videos, setVideos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [isAuthenticatedCookie, setIsAuthenticatedCookie] = useState(Cookies.get('isAuthenticated') === 'true');
-
-    /*useEffect(() => {
-        const fetchVideos = async () => {
-            try {
-                const videoIds = Array.from({ length: 3 }, (_, i) => i + 1);
-                const videoPromises = videoIds.map(id =>
-                    fetch(`http://localhost:8080/api/videos/recuperar/${id}`)
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Error en la red');
-                            }
-                            return response.json();
-                        })
-                );
-
-                const videosData = await Promise.all(videoPromises);
-                setVideos(videosData);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchVideos();
-    }, []);  */
 
     const fetchVideos = async (query = "") => {
         try {
@@ -58,50 +31,21 @@ const Inicio = () => {
         }
     };
 
-
-    /* useEffect(() => {
-         setIsAuthenticatedCookie(Cookies.get('isAuthenticated') === 'true');
-     }, [auth.isAuthenticated]);
- 
-     if (loading) return <div>Cargando videos...</div>;
-     if (error) return <div>Error: {error}</div>; */
-
     useEffect(() => {
         fetchVideos();
     }, []);
 
-    // 🔹 Verificar autenticación
-    useEffect(() => {
-        setIsAuthenticatedCookie(Cookies.get('isAuthenticated') === 'true');
-    }, [auth.isAuthenticated]);
-
     if (loading) return <div>Cargando videos...</div>;
     if (error) return <div>Error: {error}</div>;
 
-
     return (
         <div>
-            <div className='navbar'>
-                <img src={UStube} className='logo'></img>
-                <Barrabusqueda onSearch={fetchVideos} />
-                {isAuthenticatedCookie ? (
-                    <div style={{ display: 'flex', gap: '20px' }}>
-                        <button onClick={logout} className='botonesNav'>Cerrar sesión</button>
-                        <Link to="/upload">
-                            <button className='botonesNav' >Subir Video</button>
-                        </Link>
-                    </div>
-                ) : (
-                    <Link to="/login">
-                        <button className='botonesNav'>Iniciar sesión</button>
-                    </Link>
-                )}
-            </div>
+            <Navbar/>
             <ul className='zonavideos'>
                 {videos.map(video => (
-                    <Link to={`/videos/ver/${video.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                        <li key={video.id} className='card'>
-                            <img src={`http://localhost:8080/api/videos/min/${video.id}`} className='miniaturas'></img>
+                    <Link to={`/videos/ver/${video.id}`} style={{ textDecoration: 'none', color: 'inherit' }} key={video.id}>
+                        <li className='card'>
+                            <img src={`http://localhost:8080/api/videos/min/${video.id}`} className='miniaturas' alt="Miniatura"></img>
                             <h2>{video.titulo}</h2>
                             <p>{video.username}</p>
                         </li>

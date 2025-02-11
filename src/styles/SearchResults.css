@@ -1,0 +1,23 @@
+
+.miniatura{
+    width: 30%;
+}
+.resultadocontenedor{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    background-color: rgb(25, 25, 25);
+    padding: 15px;
+    border-radius: 10px;
+    color: white;  /* Para mejorar la legibilidad del texto */
+    margin-bottom: 10px;
+    list-style: none; /* Quita los estilos de lista */
+    font-size: 100%;
+    box-shadow: 0 7px 10px rgb(0, 0, 0);
+    transition: 0.5s;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+.resultadocontenedor:hover{
+    background-color: rgba(27, 100, 224);
+}

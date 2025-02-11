@@ -17,9 +17,9 @@ body { /*Controla el fondo de toda la pagina de inicio*/
 }
 
 .logo{
-    width: 20%; 
+    display: block;
+    width: 150px; 
     height: auto;
-    margin-left: 5%;
 }
 
 .navbar{
@@ -27,6 +27,7 @@ body { /*Controla el fondo de toda la pagina de inicio*/
     justify-content: space-between; /* Distribuye los elementos */
     align-items: center; /* Alinea verticalmente */
     padding: 10px; /* Agrega algo de espacio */
+    position: relative;
 }
 
 .botonesNav{
