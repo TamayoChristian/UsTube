@@ -1,0 +1,60 @@
+.titulo {
+    display: flex;
+    justify-content: center;
+    font-family: 'Franklin Gothic Medium';
+    font-size: 300%;
+    text-shadow: 0 0 50px rgba(255, 255, 255, 0.6);
+}
+
+.username {
+    display: flex;
+    background-color: rgba(27, 100, 224);
+    width: fit-content;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 25px;
+    font-size: 150%;
+    margin-top: 5px;
+    margin-left: 2rem;
+    transition: 0.4s;
+}
+
+
+.botones {
+    display: flex;
+    gap: 10px;
+}
+
+.boton {
+    background-color: transparent;
+    border-radius: 25px;
+    font-size: 120%;
+    cursor: pointer;
+    font-size: 150%;
+    margin-left: 2%;
+    margin-bottom: 3%;
+    color: white;
+    padding: 0.7%;
+    border-color: rgba(27, 100, 224);
+    transition: 0.3s;
+}
+
+.boton:hover {
+    background-color: rgba(27, 100, 224);
+    border-color: transparent;
+    filter: drop-shadow(0 0 15px rgba(27, 100, 224, 0.5));
+}
+.video{
+    display: flex;
+    justify-content: center;
+}
+.descripcion{
+    padding: 2%;
+    margin: 20px;
+    border-radius: 10px;
+    background: linear-gradient(rgba(50, 50, 50, 0.3), rgb(25, 25, 25, 0.3));
+    box-shadow: 0 10px 30px black;
+    padding-bottom: 30px;
+}

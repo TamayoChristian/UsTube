@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import Navbar from './Navbar';
+import '../styles/video.css';
+import { AiFillLike } from "react-icons/ai";
+import { AiFillDislike } from "react-icons/ai";
+
 
 const Video = () => {
     const { id } = useParams(); // Obtener la ID del video desde la URL
@@ -74,13 +78,13 @@ const Video = () => {
                 method: 'DELETE',
                 credentials: "include"
             });
-    
+
             if (response.ok) {
                 setLikes((prevLikes) => prevLikes - 1); // Disminuir el conteo de likes
-            } else if (response.status == 409){
+            } else if (response.status == 409) {
                 console.log("Ya has dado dislike")
             }
-            
+
             else {
                 const errorText = await response.text();
                 console.error("Error al dar dislike:", errorText);
@@ -89,28 +93,40 @@ const Video = () => {
             console.log('Error al dar dislike:', error);
         }
     };
-    
-    
+
+
 
     if (loading) return <div>Cargando...</div>;
     if (error) return <div>Error: {error}</div>;
 
     return (
-        
+
         <div>
-            <Navbar/>
-            <h1>{video.titulo}</h1>
-            <p>Subido por: {video.username}</p>
-            <div>
-                <p>Likes: {likes}</p>
-                <button onClick={ingresarLikes}>Dar Like</button>
-                <button onClick={ingresarDislikes}>Dislike</button>
-            </div>
+            <Navbar />
+            <h1 className='titulo'>{video.titulo}</h1>
             {/* La parte para ver el video */}
-            <video width="640" height="360" controls>
-                <source src={`http://localhost:8080/api/videos/ver/${video.id}`} type="video/mp4" />
-                Tu navegador no soporta el elemento de video.
-            </video>
+            <div className='video'>
+                <video width="720" height="405" controls>
+                    <source src={`http://localhost:8080/api/videos/ver/${video.id}`} type="video/mp4" />
+                    Tu navegador no soporta el elemento de video.
+                </video>
+            </div>
+            <p style={{ fontFamily: 'Franklin Gothic', padding:'20px' }}> <h2>Subido por:</h2>
+                <div className='username'>
+                    {video.username}
+                </div>
+            </p>
+            <div>
+                <h2 style={{ fontFamily: 'Franklin Gothic', padding:'20px' }} >Likes: {likes}</h2>
+                <div className='botones'>
+                    <button className='boton' onClick={ingresarLikes}><AiFillLike /></button>
+                    <button className='boton' onClick={ingresarDislikes}><AiFillDislike /></button>
+                </div>
+                <p style={{ fontFamily: 'Franklin Gothic', padding:'20px' }}>
+                    <h2>Descripción</h2>  
+                    <div className='descripcion'>{video.descripcion}</div>
+                </p>
+            </div>
         </div>
     );
 };

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import '../styles/login.css'
 
 const Register = () => {
     const [username, setUsername] = useState('');
@@ -35,28 +36,32 @@ const Register = () => {
 
     return (
         <div>
-            <h1>Registro</h1>
+            <h1 className='titulo'>REGISTRARSE</h1>
+            <div className='body'>
             <form onSubmit={handleRegister}>
-                <div>
-                    <label>Nombre de usuario:</label>
+                <div className='capa'>
+                    <div><label>Nombre de usuario:</label></div>
                     <input
                         type="text"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         required
+                        className='ingreso'
                     />
                 </div>
-                <div>
-                    <label>Contraseña:</label>
+                <div className='capa'>
+                    <div><label>Contraseña:</label></div>
                     <input
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        required
+                        required 
+                        className='ingreso'
                     />
                 </div>
-                <button type="submit">Registrar</button>
+                <button type="submit" className='botonLogin'>Registrar</button>
             </form>
+            </div>
             {message && <p>{message}</p>}
         </div>
     );

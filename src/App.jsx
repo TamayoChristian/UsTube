@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from "/ustube_front/src/components/Login";
-import Inicio from "/ustube_front/src/components/Inicio";
+import Login from "./components/Login";
+import Inicio from "./components/Inicio";
 import Video from "./components/video";
 import UploadVideo from "./components/UploadVideo ";
 import useAuth from "./hooks/useAuth";
