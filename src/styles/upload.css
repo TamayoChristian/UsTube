@@ -1,0 +1,88 @@
+.titulo{
+    font-family: 'Franklin Gothic Medium';
+    font-size: 400%;
+}
+.marco{
+    margin: 5%;
+    padding: 5%;
+    background: linear-gradient(rgb(30, 30, 30), rgb(10, 10, 10));
+    border-radius: 30px;
+    box-shadow: 0 10px 20px black;
+    width: fit-content;
+    height: fit-content;
+}
+.centro{
+    display: flex;
+    justify-content: center;
+}
+.contenedorform{
+    display: flex;
+    justify-content: center;
+}
+.label{
+    display: flex;
+    font-family: 'Franklin Gothic Medium';
+    gap: 2%;
+    flex-direction: column;
+}
+.input{
+    background: rgba(0, 0, 155, 0.3);
+    border-color: rgba(10, 20, 255, 0.6);
+    color: white;
+    font-family: Arial, sans-serif;
+    font-style: oblique;
+    text-align: center;
+    font-size: 200%;
+    width: 90%;
+    margin: 2%;
+    border-radius: 10px;
+}
+
+.contenedorinvideo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.file-input {
+    display: none; /* Oculta el input de archivo */
+}
+
+.upload-box{
+    margin: 30px;
+    width: 300px;
+    height: 200px;
+    background-color: rgba(30, 30, 200, 0.25); /* Azul con transparencia */
+    border: 1px solid blue; /* Borde azul */
+    border-style: dashed;
+    color: rgb(255, 255, 255); /* Texto azul */
+    font-weight: bold;
+    text-align: center;
+    line-height: 200px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+.upload-box:hover {
+    background-color: rgba(30, 30, 200, 0.25);
+    transform: scale(110%);
+    filter: drop-shadow(0 0 40px blue);
+}
+.botonsubir{
+    background: rgba(0, 0, 255, 0.068);
+    border: 2px solid blue;
+    color: white;
+    border-radius: 40px;
+    font-size: 130%;
+    padding: 2%;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.botonsubir:hover{
+    background: rgba(0, 0, 255, 0.4);
+    filter: drop-shadow(0 0 23px blue);
+}
+
+

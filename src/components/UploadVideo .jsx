@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import Cookies from "js-cookie";
+import '../styles/upload.css'
 
 const UploadVideo = () => {
     const { auth } = useAuth();
@@ -59,23 +60,56 @@ const UploadVideo = () => {
     };
 
     return (
-        <div>
-            <h2>Subir Video</h2>
+        <div style={{display:'flex', justifyContent:'center', flexDirection:'column'}}>
+            <h2 className="titulo">Subir Video</h2>
             {auth.isAuthenticated ? (
-                <form onSubmit={uploadVideo}>
-                    <label>Título</label>
-                    <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
-
-                    <label>Descripción</label>
-                    <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} required />
-
-                    <label>Ingrese su video</label>
-                    <input type="file" accept="video/*" onChange={(e) => setFile(e.target.files[0])} required />
-
-                    <label> Ingrese la miniatura</label>
-                    <input type="file" accept="image/*" onChange={(e) => setThumbnail(e.target.files[0])}></input>
-                    <button type="submit">Subir</button>
-                </form>
+                <div className="centro"> 
+                    <div className="marco">
+                    <form onSubmit={uploadVideo}>
+                       
+                       <div className="contenedorform">
+                       <div>
+                            
+                            <div className="label">
+                                <label>TÍTULO:</label>
+                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                    <input type="text" className="input" value={title} onChange={(e) => setTitle(e.target.value)} required />
+                                </div>
+                            </div>
+                            <div className="label">
+                                <label>DESCRIPCIÓN:</label>
+                                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                                    <input type="text" className="input" value={description} onChange={(e) => setDescription(e.target.value)} required />
+                                </div>
+                            </div>
+                           
+                            <div className="label">
+                                <label>INGRESE LA MINIATURA</label>
+                                <div className="contenedorinvideo">
+                                    <input id='fileInput' className="file-input" type="file" accept="image/*" onChange={(e) => setThumbnail(e.target.files[0])}></input>
+                                    <label htmlFor="fileInput" className="upload-box">
+                                        {file ? file.name : "INGRESE LA MINIATURA AQUÍ"}
+                                    </label>
+                                </div>
+                            </div>
+                           
+                                </div> 
+                                <div className="label">
+                                <label>INGRESE SU VIDEO</label>
+                                <div className="contenedorinvideo">
+                                    <input id='fileInput' className="file-input" type="file" accept="video/*" onChange={(e) => setFile(e.target.files[0])} required />
+                                    <label htmlFor="fileInput" className="upload-box">
+                                        {file ? file.name : "INGRESE SU VIDEO AQUÍ"}
+                                    </label>
+                                </div>
+                            </div>
+                       </div>
+                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                            <button type="submit" className="botonsubir">Subir</button>
+                        </div>
+                    </form>
+                </div>
+                </div>
             ) : (
                 <div>
                     <p>Debes <a href="/login">iniciar sesión</a> para subir videos.</p>

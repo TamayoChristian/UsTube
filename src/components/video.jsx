@@ -18,7 +18,7 @@ const Video = () => {
     useEffect(() => {
         const fetchVideo = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/videos/recuperar/${id}`);
+                const response = await fetch(`http://ustube-api-container:8080/api/videos/recuperar/${id}`);
                 if (!response.ok) {
                     throw new Error("Error al obtener el video");
                 }
@@ -35,7 +35,7 @@ const Video = () => {
 
         const fetchLikes = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/likes/${id}/likes`);
+                const response = await fetch(`http://ustube-api-container:8080/api/likes/${id}/likes`);
                 if (!response.ok) {
                     throw new Error("Hubo un error al contar los likes");
                 }
@@ -50,7 +50,7 @@ const Video = () => {
 
     const ingresarLikes = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/api/likes/${id}/like`, {
+            const response = await fetch(`http://ustube-api-container:8080/api/likes/${id}/like`, {
                 method: 'POST',
                 credentials: "include",
                 headers: { 'Content-Type': 'application/json' },
@@ -74,7 +74,7 @@ const Video = () => {
 
     const ingresarDislikes = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/api/likes/${id}/likes/${auth.userId}`, {
+            const response = await fetch(`http://ustube-api-container:8080/api/likes/${id}/likes/${auth.userId}`, {
                 method: 'DELETE',
                 credentials: "include"
             });
@@ -107,7 +107,7 @@ const Video = () => {
             {/* La parte para ver el video */}
             <div className='video'>
                 <video width="720" height="405" controls>
-                    <source src={`http://localhost:8080/api/videos/ver/${video.id}`} type="video/mp4" />
+                    <source src={`http://ustube-api-container:8080/api/videos/ver/${video.id}`} type="video/mp4" />
                     Tu navegador no soporta el elemento de video.
                 </video>
             </div>
