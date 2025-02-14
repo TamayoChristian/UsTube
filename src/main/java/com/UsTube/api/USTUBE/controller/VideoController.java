@@ -141,7 +141,7 @@ public class VideoController {
     @GetMapping("/buscar")
     public ResponseEntity<?> buscarVideos(@RequestParam String title) {
         try {
-            List<Video> videos = videoRepository.findByTituloContainingIgnoreCase(title);
+            List<VideoDTO> videos = videoService.buscarVideos(title);
             return ResponseEntity.ok(videos);
         } catch (Exception e) {
             logger.error("Error al buscar videos por título", e);

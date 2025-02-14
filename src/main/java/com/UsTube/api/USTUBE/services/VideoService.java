@@ -31,12 +31,12 @@ public class VideoService {
 
 
     // Definimos una constante para la ruta de almacenamiento
-    private static final String VIDEO_STORAGE_PATH = "D:/prueba_api";
-    //private static final String VIDEO_STORAGE_PATH = "/videos";
+    //private static final String VIDEO_STORAGE_PATH = "D:/prueba_api";
+    private static final String VIDEO_STORAGE_PATH = "/videos";
 
     //La ruta para las miniaturas
-    private static final String THUMBNAIL_STORAGE_PATH = "D:/prueba_api/miniaturas";
-    //private static final String THUMBNAIL_STORAGE_PATH = "/miniaturas";
+    //private static final String THUMBNAIL_STORAGE_PATH = "D:/prueba_api/miniaturas";
+    private static final String THUMBNAIL_STORAGE_PATH = "/miniaturas";
     
     public VideoService(UsuarioRepository usuarioRepository, VideoRepository videoRepository) {
         this.usuarioRepository = usuarioRepository;
@@ -115,6 +115,13 @@ public class VideoService {
 		   return videos.stream()
 	                .map(VideoDTO::new) // Asumiendo que VideoDTO tiene un constructor que acepta Video
 	                .collect(Collectors.toList());
+	    }
+	
+	 public List<VideoDTO> buscarVideos(String titulo) {
+	        List<Video> videos = videoRepository.findByTituloContainingIgnoreCase(titulo);
+	        return videos.stream()
+	                     .map(VideoDTO::new) // Convertir a DTO
+	                     .collect(Collectors.toList());
 	    }
 	
 }
